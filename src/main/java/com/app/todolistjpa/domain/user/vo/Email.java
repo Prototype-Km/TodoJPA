@@ -1,4 +1,4 @@
 package com.app.todolistjpa.domain.user.vo;
 
-public class userVO {
+public class Email {
 }
