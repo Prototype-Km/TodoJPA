@@ -9,5 +9,4 @@ import lombok.Getter;
 public class SignUpResponseDTO {
     private final Long id;
     private final String name;
-
 }

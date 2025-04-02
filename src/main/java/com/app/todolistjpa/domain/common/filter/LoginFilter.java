@@ -30,7 +30,7 @@ public class LoginFilter implements Filter {
         if(!isWhiteList(requestURI)){
             HttpSession session = httpRequest.getSession(false); //세션이 없으면 null
 
-            if(session == null || session.getAttribute("loginUser)") == null){
+            if(session == null || session.getAttribute("loginUser") == null){
                 throw new RuntimeException("로그인 해주세요.");
             }
             //로그인 성공

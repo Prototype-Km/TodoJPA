@@ -1,6 +1,7 @@
 package com.app.todolistjpa.domain.todo.dto;
 
 import com.app.todolistjpa.domain.todo.entity.Todo;
+import com.app.todolistjpa.domain.user.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -21,10 +22,11 @@ public class TodoRequestDTO {
     }
 
     //toEntity
-    public Todo toEntity(){
+    public Todo toEntity(User user){
         return Todo.builder()
             .title(this.todoTitle)
             .contents(this.todoContents)
+            .user(user)
             .build();
     }
 

@@ -5,6 +5,9 @@ import com.app.todolistjpa.domain.todo.dto.TodoRequestDTO;
 import com.app.todolistjpa.domain.todo.dto.TodoResponseDTO;
 import com.app.todolistjpa.domain.todo.entity.Todo;
 import com.app.todolistjpa.domain.todo.repository.TodoRepository;
+import com.app.todolistjpa.domain.user.entity.User;
+import com.app.todolistjpa.domain.user.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +17,23 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class TodoServiceImpl {
+public class TodoServiceImpl implements TodoService{
 
     //생성자 주입
     private final TodoRepository todoRepository;
+    private final UserRepository userRepository;
+    private final HttpSession session;
 
     //작성
     public TodoResponseDTO register(TodoRequestDTO requestDTO){
+        //로그인된 아이디
+        Long userId = (Long) session.getAttribute("loginUser");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
 
         //requestDTO -> toEntity
-        Todo entity = requestDTO.toEntity();
+        Todo entity = requestDTO.toEntity(user);
 
         //저장
         Todo saved = todoRepository.save(entity);
@@ -32,7 +42,7 @@ public class TodoServiceImpl {
         return TodoResponseDTO.builder()
                 .title(saved.getTitle())
                 .contents(saved.getContents())
-//                .userName(saved.getUser().getName())
+                .userName(saved.getUser().getName())
                 .build();
     }
     //조회

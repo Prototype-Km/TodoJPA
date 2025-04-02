@@ -30,11 +30,11 @@ public class SignUpRequestDTO {
     @NotBlank(message = "비밀번호를 작성해주세요.")
     private final String password;
 
-    public User toEntity() {
+    public User toEntity(String encodedPassword) {
         return User.builder()
                 .name(this.getName())
                 .email(this.getEmail())
-                .password(this.getPassword())
+                .password(encodedPassword)
                 .build();
     }
 }
