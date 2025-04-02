@@ -25,4 +25,11 @@ public class User extends BaseEntity {
     private String password;
 
     protected User() {}
+
+
+    public void update(String name,String password){
+        this.name= name;
+        this.password = password;
+    }
+
 }
