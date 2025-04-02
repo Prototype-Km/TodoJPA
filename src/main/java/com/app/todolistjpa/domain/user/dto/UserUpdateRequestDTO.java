@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class UserUpdateRequestDTO {
 
-    @NotBlank
+    @NotBlank(message = "이름을 작성해주세요.")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 
 }

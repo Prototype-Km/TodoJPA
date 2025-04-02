@@ -54,6 +54,8 @@ public class UserController {
         return ResponseEntity.ok(updated);
     }
 
+    //비밀번호 변경
+
     //회원 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {

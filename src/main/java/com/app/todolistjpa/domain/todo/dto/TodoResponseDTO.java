@@ -15,7 +15,7 @@ public class TodoResponseDTO {
     private final Long id;
     private final String title;
     private final String contents;
-//    private final String userName;
+    private final String userName;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
@@ -25,7 +25,7 @@ public class TodoResponseDTO {
                 .id(todo.getId())
                 .title(todo.getTitle())
                 .contents(todo.getContents())
-//            .userName(todo.getUser().getName())
+                .userName(todo.getUser().getName())
                 .createdAt(todo.getCreatedAt())
                 .modifiedAt(todo.getModifiedAt())
                 .build();
