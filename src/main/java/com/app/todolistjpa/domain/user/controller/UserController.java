@@ -42,8 +42,8 @@ public class UserController {
 
     //회원 단건 조회
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getMember(@PathVariable Long id){
-        UserResponseDTO foundUser = userService.getMember(id);
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id){
+        UserResponseDTO foundUser = userService.getUser(id);
         return ResponseEntity.ok(foundUser);
     }
 
@@ -55,6 +55,11 @@ public class UserController {
     }
 
     //비밀번호 변경
+    @PatchMapping("/{id}/password")
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UserPasswordUpdateRequestDTO requestDTO){
+        userService.updatePassword(id, requestDTO);
+        return ResponseEntity.noContent().build(); // 204 응답
+    }
 
     //회원 삭제
     @DeleteMapping("/{id}")
