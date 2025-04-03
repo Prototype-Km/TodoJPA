@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface UserService {
 
         //가입
@@ -16,6 +18,9 @@ public interface UserService {
 //
         //로그인
         public LoginResponseDTO login(LoginRequestDTO requestDTO, HttpSession session);
+
+        //회원 전체 조회
+        public List<UserResponseDTO> getUserList();
 
         //회원 조회
         public UserResponseDTO getUser(Long id);
@@ -29,11 +34,8 @@ public interface UserService {
         //회원 삭제
         public void delete(Long id);
 
-        //회원조회 예외처리
-        default User findByIdOrElseThrow(UserRepository userRepository, Long id) {
-            return userRepository.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-        }
+        User findByIdOrElseThrow(Long id);
+
 
         //비밀번호 검증
         default void checkPassword(PasswordEncoder passwordEncoder, String password, String encodedPassword){

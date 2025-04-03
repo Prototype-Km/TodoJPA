@@ -21,13 +21,14 @@ public class LoginFilter implements Filter {
 
         //Filter  다운캐스팅
         HttpServletRequest httpRequest =(HttpServletRequest) servletRequest;
-        HttpServletResponse httpReponse = (HttpServletResponse) servletResponse;
+        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         String requestURI= httpRequest.getRequestURI();
 
         log.info("로그인 필터 로직 실행");
 
         // WHITE_LIST가 아닌 경우 실행
         if(!isWhiteList(requestURI)){
+
             HttpSession session = httpRequest.getSession(false); //세션이 없으면 null
 
             if(session == null || session.getAttribute("loginUser") == null){

@@ -6,8 +6,12 @@ import com.app.todolistjpa.domain.user.entity.User;
 import com.app.todolistjpa.domain.user.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.boot.model.process.internal.UserTypeResolution;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,7 +57,7 @@ public class UserServiceImpl implements UserService{
 
     //회원 조회
     public UserResponseDTO getUser(Long id) {
-        User foundUser = findByIdOrElseThrow(userRepository, id);
+        User foundUser = findByIdOrElseThrow(id);
 
       return UserResponseDTO.builder()
             .id(foundUser.getId())
@@ -67,7 +71,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void updatePassword(Long id, UserPasswordUpdateRequestDTO requestDTO){
         //id조회
-        User foundUser = findByIdOrElseThrow(userRepository, id);
+        User foundUser = findByIdOrElseThrow(id);
         //비밀번호 검증
         checkPassword(passwordEncoder,requestDTO.getCurrentPassword() ,foundUser.getPassword());
         //해시된 비밀번호
@@ -79,7 +83,7 @@ public class UserServiceImpl implements UserService{
     //회원 수정
     @Transactional
     public UserResponseDTO update(Long id, UserUpdateRequestDTO requestDTO) {
-        User foundUser = findByIdOrElseThrow(userRepository, id);
+        User foundUser = findByIdOrElseThrow(id);
 
         foundUser.update(requestDTO.getName(), requestDTO.getEmail());
         return UserResponseDTO.builder()
@@ -91,12 +95,27 @@ public class UserServiceImpl implements UserService{
                 .build();
     }
 
+    //회원 전체 조회
+    public List<UserResponseDTO> getUserList(){
+        return userRepository.findAll().stream()
+                .map(UserResponseDTO::toDTO).collect(Collectors.toList());
+    }
+
+
     //회원 삭제
     @Transactional
     public void delete(Long id){
-        User foundUser = findByIdOrElseThrow(userRepository, id);
+        User foundUser =findByIdOrElseThrow(id);
         userRepository.delete(foundUser);
     }
+
+    @Override
+    public User findByIdOrElseThrow(Long id) {
+        return userRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+    }
+
+
 
 
 }

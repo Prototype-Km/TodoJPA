@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class TodoResponseDTO {
 
     private final Long id;
+    private final Long userId;
     private final String title;
     private final String contents;
     private final String userName;
@@ -23,9 +24,10 @@ public class TodoResponseDTO {
     public static TodoResponseDTO from(Todo todo) {
         return TodoResponseDTO.builder()
                 .id(todo.getId())
+                .userId(todo.getUser().getId())
+                .userName(todo.getUser().getName())
                 .title(todo.getTitle())
                 .contents(todo.getContents())
-                .userName(todo.getUser().getName())
                 .createdAt(todo.getCreatedAt())
                 .modifiedAt(todo.getModifiedAt())
                 .build();
